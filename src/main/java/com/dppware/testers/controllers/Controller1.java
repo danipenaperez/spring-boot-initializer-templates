@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("controller1")
-public class Controller1 {
+public class Controller1 extends BaseController{
 
 	/*********************************************
 	 * NON SECURED END POINTS 
