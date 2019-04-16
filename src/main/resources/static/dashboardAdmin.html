@@ -1,0 +1,53 @@
+<!doctype html>
+
+<head>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="./js/app.js"></script>
+<title>DashBoard</title>
+</head>
+
+<style>
+  body { text-align: center; padding: 150px; }
+  h1 { font-size: 50px; }
+  body { font: 20px Helvetica, sans-serif; color: #333; }
+  article { display: block; text-align: left; width: 650px; margin: 0 auto; }
+  a { color: #dc8100; text-decoration: none; }
+  a:hover { color: #333; text-decoration: none; }
+</style>
+
+<article>
+    <h1>Admin DashBoard</h1>
+    <span id="sessionInfo"></span>
+    <ul>
+    	<li><a href="/api" >Access to HAL Browser</a></li>
+    	<li><a href="javascript:refreshLogginInfo(printLoginDate);" >Update Login Time info (POST action)</a></li>
+    	<li><a href="javascript:getAndAlertResult('/feature/securedJSR250_admin_endpoint');" >Request <b>ADMIN</b> Permitted EndPoint </a></li>
+    	<li><a href="javascript:getAndAlertResult('/feature/secured_user_endpoint');" >Request NON Permitted EndPoint </a></li>
+    	<li><a href="/logout" >Logout</a></li>
+    </ul>
+    
+    <div>
+        <p>If found any bug at this proyect 
+        	<a href="mailto:info@thisapp.com">contact us</a>
+        </p>
+        <p>&mdash; The Team</p>
+    </div>
+</article>
+
+<script type="text/javascript">
+	
+	function printLoginDate(info){
+		$('#sessionInfo').html("Current session started at:" + info.currentLogin);
+	}
+	
+	$(document).ready(function(){
+		$.ajax({
+		    type: "GET",
+		    url: 'session/me',
+		    success: function (res,textStatus, jqXHR) {
+		    	setGlobalSessionInfo(res, jqXHR);
+		    	printLoginDate(res);
+		    }
+		  });
+	});
+</script>

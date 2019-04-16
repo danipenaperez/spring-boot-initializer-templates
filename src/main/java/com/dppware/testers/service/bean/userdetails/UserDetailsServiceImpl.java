@@ -17,7 +17,10 @@ import org.springframework.stereotype.Service;
 import com.dppware.testers.dao.entity.User;
 import com.dppware.testers.dao.repository.UserRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService{
 
 	@Autowired
@@ -33,14 +36,14 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserDetailsBeanImpl user = null;
-		
+		System.out.println("BUSCANDO Y BUSCANDO USUARIO....EN EL USERDETAILS SERVICE....");
 		User fetchUser = userRepository.findByEmail(username);	
 		
 		if(fetchUser!=null) {
 			List<GrantedAuthorityImpl> userAuthorities = new ArrayList<GrantedAuthorityImpl>();
 			
 			if(fetchUser.getRoles()!=null) {
-				fetchUser.getRoles().stream().forEach(authority->userAuthorities.add(new GrantedAuthorityImpl("ROLE_"+authority.getName())));
+				fetchUser.getRoles().stream().forEach(authority->userAuthorities.add(new GrantedAuthorityImpl(authority.getName())));
 			}
 			
 			user = new UserDetailsBeanImpl(fetchUser.getName(), fetchUser.getEmail(), fetchUser.getPassword(),userAuthorities, new Date());
